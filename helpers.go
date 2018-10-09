@@ -43,9 +43,9 @@ func MustDeclareExchange(conn *amqp.Connection, exchange string, args amqp.Table
 }
 
 // MustDeclareConsumer declare a consumer delivery chan or die
-func MustDeclareConsumer(ch *amqp.Channel, exchange string, routerKeys []string) (*amqp.Channel, <-chan amqp.Delivery) {
+func MustDeclareConsumer(ch *amqp.Channel, exchange, qName string, routerKeys []string) (*amqp.Channel, <-chan amqp.Delivery) {
 	q, err := ch.QueueDeclare(
-		"",    // name
+		qName, // name
 		false, // durable
 		false, // delete when usused
 		true,  // exclusive
@@ -63,7 +63,8 @@ func MustDeclareConsumer(ch *amqp.Channel, exchange string, routerKeys []string)
 			s,        // routing key
 			exchange, // exchange
 			false,
-			nil)
+			nil,
+		)
 		failOnError(err, "Failed to bind a queue")
 	}
 
@@ -90,9 +91,9 @@ func MustDeclareConsumer(ch *amqp.Channel, exchange string, routerKeys []string)
 }
 
 // MustBindQueue bind queue to exchange or die
-func MustBindQueue(ch *amqp.Channel, exchange string, routerKeys []string, args amqp.Table) {
+func MustBindQueue(ch *amqp.Channel, exchange, qName string, routerKeys []string, args amqp.Table) {
 	q, err := ch.QueueDeclare(
-		"",    // name
+		qName, // name
 		true,  // durable
 		false, // delete when usused
 		true,  // exclusive
