@@ -43,14 +43,14 @@ func MustDeclareExchange(conn *amqp.Connection, exchange string, args amqp.Table
 }
 
 // MustDeclareConsumer declare a consumer delivery chan or die
-func MustDeclareConsumer(ch *amqp.Channel, exchange, qName string, routerKeys []string) (*amqp.Channel, <-chan amqp.Delivery) {
+func MustDeclareConsumer(ch *amqp.Channel, exchange, qName string, routerKeys []string, args amqp.Table) (*amqp.Channel, <-chan amqp.Delivery) {
 	q, err := ch.QueueDeclare(
 		qName, // name
 		false, // durable
 		false, // delete when usused
 		true,  // exclusive
 		false, // no-wait
-		nil,   // arguments
+		args,  // arguments
 	)
 	failOnError(err, "Failed to declare a queue")
 
