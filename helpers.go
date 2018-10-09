@@ -48,7 +48,7 @@ func MustDeclareConsumer(ch *amqp.Channel, exchange, qName string, routerKeys []
 		qName, // name
 		false, // durable
 		false, // delete when usused
-		true,  // exclusive
+		false,  // exclusive
 		false, // no-wait
 		args,  // arguments
 	)
@@ -96,7 +96,7 @@ func MustBindQueue(ch *amqp.Channel, exchange, qName string, routerKeys []string
 		qName, // name
 		true,  // durable
 		false, // delete when usused
-		true,  // exclusive
+		false,  // exclusive
 		false, // no-wait
 		args,  // arguments
 	)
